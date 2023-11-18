@@ -1,11 +1,16 @@
 import jwt from "jsonwebtoken";
-import CustomError from "../utils/error.js";
 
 export const protectRoute = (req, res, next) => {
   const token = req.header("Authorization");
 
   if (!token || !token.startsWith("Bearer ")) {
-    throw new CustomError("Access denied. Invalid token.", 401);
+    return res.status(401).json({
+      success: false,
+      error: {
+        code: 401,
+        message: "Access denied. Invalid token.",
+      },
+    });
   }
 
   const authToken = token.slice(7); // Remove 'Bearer ' prefix
@@ -15,6 +20,12 @@ export const protectRoute = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    throw new CustomError("Access denied. Invalid token.", 401);
+    return res.status(401).json({
+      success: false,
+      error: {
+        code: 401,
+        message: "Access denied. Invalid token.",
+      },
+    });
   }
 };

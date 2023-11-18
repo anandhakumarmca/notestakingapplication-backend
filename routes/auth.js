@@ -6,7 +6,6 @@ import {
   register,
   resetpassword,
   verifyRandomString,
-  getPrivateData,
 } from "../controllers/auth.js";
 import { protectRoute } from "../middleware/auth.js";
 
@@ -15,10 +14,6 @@ const router = express.Router();
 router.post("/register", register);
 router.get("/activate/:activationToken", activateUser);
 router.post("/login", login);
-router.post("/forgotpassword", forgotPassword);
-router.get("/verifyRandomString/:randomString", verifyRandomString);
-router.put("/resetpassword/:randomString", resetpassword);
-router.get("/private", protectRoute, getPrivateData);
 router.get("/protected-route", protectRoute, (req, res) => {
   res.json({
     success: true,
@@ -26,4 +21,8 @@ router.get("/protected-route", protectRoute, (req, res) => {
     user: req.user,
   });
 });
+router.post("/forgotpassword", forgotPassword);
+router.get("/verifyRandomString/:randomString", verifyRandomString);
+router.put("/resetpassword/:randomString", resetpassword);
+
 export const authRouter = router;

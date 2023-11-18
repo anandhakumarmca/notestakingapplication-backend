@@ -13,15 +13,6 @@ import {
   getUserByRandomString,
 } from "../utils/user.js";
 
-const getPrivateData = (req, res) => {
-  console.log(req.user);
-  return res.status(200).json({
-    success: true,
-    message: "You got access to the private data in this route",
-    user: req.user,
-  });
-};
-
 const register = async (req, res) => {
   try {
     // Check if the user already exists
@@ -220,7 +211,6 @@ const resetpassword = async (req, res, next) => {
 };
 
 export {
-  getPrivateData,
   register,
   login,
   forgotPassword,
