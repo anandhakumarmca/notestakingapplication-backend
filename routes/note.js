@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 router.post("/createNote", protectRoute, createNote);
-router.get("/getAllNotes", getAllNotes);
+router.get("/getAllNotes", protectRoute, getAllNotes);
 router.get("/getNote/:id", protectRoute, getNoteById);
 router.put("/editNote/:id", protectRoute, updateNote);
 router.delete("/deleteNote/:id", protectRoute, deleteNote);
