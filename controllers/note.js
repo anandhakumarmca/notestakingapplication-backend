@@ -19,7 +19,9 @@ export const createNote = async (req, res) => {
 // Get all notes
 export const getAllNotes = async (req, res) => {
   try {
-    const notes = await Note.find();
+    const { userId } = req.params;
+
+    const notes = await Note.find({ user: userId });
     console.log("Test", notes);
 
     if (!notes || notes.length === 0) {
