@@ -97,3 +97,36 @@ export const deleteNote = async (req, res) => {
     res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
+
+// Search notes
+export const searchNotes = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { query } = req.query;
+    console.log("Test :",userId);
+    console.log("Test1 :",query);
+    const notes = await Note.find({
+      user: userId,
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { content: { $regex: query, $options: "i" } },
+      ],
+    });
+
+    if (!notes || notes.length === 0) {
+      return res.status(404).json({
+        message: "No matching notes found",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Matching notes retrieved successfully",
+      data: notes,
+      success: true,
+    });
+  } catch (error) {
+    console.error("Error searching notes:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
+};
